@@ -1,12 +1,26 @@
 const express = require('express');
+const cors = require('cors');
+const path = require('path');
+
 const app = express();
-const PORT = 3000;
+const PORT = process.env.PORT || 3000;
 
-app.use(express.static('public'));
+// ✅ Middleware
+app.use(cors());
+app.use(express.static(path.join(__dirname, 'public')));
 
-app.get('/', (req, res) => res.sendFile(__dirname + '/views/index.html'));
-app.get('/about', (req, res) => res.sendFile(__dirname + '/views/about.html'));
-app.get('/contact', (req, res) => res.sendFile(__dirname + '/views/contact.html'));
-app.get('/gallery', (req, res) => res.sendFile(__dirname + '/views/gallery.html'));
+// ✅ Static HTML routes
+app.get('/', (req, res) => res.sendFile(path.join(__dirname, 'views', 'index.html')));
+app.get('/about', (req, res) => res.sendFile(path.join(__dirname, 'views', 'about.html')));
+app.get('/contact', (req, res) => res.sendFile(path.join(__dirname, 'views', 'contact.html')));
+app.get('/gallery', (req, res) => res.sendFile(path.join(__dirname, 'views', 'gallery.html')));
 
-app.listen(PORT, () => console.log(`Server running on http://localhost:${PORT}`));
+// ✅ Sample API route
+app.get('/api/message', (req, res) => {
+  res.json({ message: 'Hello from Artistic Code Warrior backend! 🎨⚙️' });
+});
+
+// ✅ Start the server
+app.listen(PORT, () => {
+  console.log(`Server running on http://localhost:${PORT}`);
+});
